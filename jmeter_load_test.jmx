@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.6.3">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Test Plan - Institution Load Test" enabled="true">
+      <boolProp name="TestPlan.tearDown_on_shutdown">true</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+        <collectionProp name="Arguments.arguments"/>
+      </elementProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
+    </TestPlan>
+    <hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group - Load Test">
+        <intProp name="ThreadGroup.num_threads">1</intProp>
+        <intProp name="ThreadGroup.ramp_time">1</intProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller">
+          <stringProp name="LoopController.loops">1</stringProp>
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+        </elementProp>
+      </ThreadGroup>
+      <hashTree>
+        <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="HTTP Request Defaults">
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">9080</stringProp>
+          <stringProp name="HTTPSampler.protocol">http</stringProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="Variables definidas por el Usuario">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.implementation"></stringProp>
+        </ConfigTestElement>
+        <hashTree/>
+        <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager">
+          <collectionProp name="HeaderManager.headers">
+            <elementProp name="Content-Type" elementType="Header">
+              <stringProp name="Header.name">Content-Type</stringProp>
+              <stringProp name="Header.value">application/json</stringProp>
+            </elementProp>
+          </collectionProp>
+        </HeaderManager>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="POST Create Institution 1">
+          <stringProp name="HTTPSampler.path">/api/institutions</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+  &quot;codeInstitution&quot;: &quot;INST-001&quot;,&#xd;
+  &quot;colorInstitution&quot;: &quot;#4f46e5&quot;,&#xd;
+  &quot;modularCode&quot;: &quot;MOD-0001&quot;,&#xd;
+  &quot;name&quot;: &quot;I.E. Valle Grande&quot;,&#xd;
+  &quot;institutionType&quot;: &quot;PRIVADA&quot;,&#xd;
+  &quot;institutionLevel&quot;: &quot;SECUNDARIA&quot;,&#xd;
+  &quot;gender&quot;: &quot;MIXTO&quot;,&#xd;
+  &quot;slogan&quot;: &quot;Educación para el futuro&quot;,&#xd;
+  &quot;address&quot;: {&#xd;
+    &quot;department&quot;: &quot;Lima&quot;,&#xd;
+    &quot;province&quot;: &quot;Cañete&quot;,&#xd;
+    &quot;district&quot;: &quot;Imperial&quot;,&#xd;
+    &quot;urbanization&quot;: &quot;Fundo Valle Grande&quot;,&#xd;
+    &quot;reference&quot;: &quot;Km 144 Panamericana Sur&quot;&#xd;
+  }&#xd;
+}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract ID 1" enabled="true">
+            <stringProp name="JSONPostProcessor.referenceNames">inst_id_1</stringProp>
+            <stringProp name="JSONPostProcessor.jsonPathExprs">$.data.id</stringProp>
+            <stringProp name="JSONPostProcessor.match_numbers">1</stringProp>
+            <stringProp name="JSONPostProcessor.defaultValues">ERROR</stringProp>
+          </JSONPostProcessor>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="POST Create Institution 2">
+          <stringProp name="HTTPSampler.path">/api/institutions</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+  &quot;codeInstitution&quot;: &quot;INST-002&quot;,&#xd;
+  &quot;colorInstitution&quot;: &quot;#06b6d4&quot;,&#xd;
+  &quot;modularCode&quot;: &quot;MOD-0002&quot;,&#xd;
+  &quot;name&quot;: &quot;I.E. San Jose&quot;,&#xd;
+  &quot;institutionType&quot;: &quot;ESTATAL&quot;,&#xd;
+  &quot;institutionLevel&quot;: &quot;PRIMARIA&quot;,&#xd;
+  &quot;gender&quot;: &quot;MIXTO&quot;,&#xd;
+  &quot;slogan&quot;: &quot;Ciencia y Virtud&quot;,&#xd;
+  &quot;address&quot;: {&#xd;
+    &quot;department&quot;: &quot;Lima&quot;,&#xd;
+    &quot;province&quot;: &quot;Cañete&quot;,&#xd;
+    &quot;district&quot;: &quot;San Vicente&quot;,&#xd;
+    &quot;urbanization&quot;: &quot;Centro Cívico&quot;,&#xd;
+    &quot;reference&quot;: &quot;Plaza de Armas&quot;&#xd;
+  }&#xd;
+}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract ID 2" enabled="true">
+            <stringProp name="JSONPostProcessor.referenceNames">inst_id_2</stringProp>
+            <stringProp name="JSONPostProcessor.jsonPathExprs">$.data.id</stringProp>
+            <stringProp name="JSONPostProcessor.match_numbers">1</stringProp>
+            <stringProp name="JSONPostProcessor.defaultValues">ERROR</stringProp>
+          </JSONPostProcessor>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="POST Create Institution 3">
+          <stringProp name="HTTPSampler.path">/api/institutions</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+  &quot;codeInstitution&quot;: &quot;INST-003&quot;,&#xd;
+  &quot;colorInstitution&quot;: &quot;#10b981&quot;,&#xd;
+  &quot;modularCode&quot;: &quot;MOD-0003&quot;,&#xd;
+  &quot;name&quot;: &quot;I.E. Maria Auxiliadora&quot;,&#xd;
+  &quot;institutionType&quot;: &quot;PRIVADA&quot;,&#xd;
+  &quot;institutionLevel&quot;: &quot;INICIAL&quot;,&#xd;
+  &quot;gender&quot;: &quot;MUJERES&quot;,&#xd;
+  &quot;slogan&quot;: &quot;Amor, Religión y Ciencia&quot;,&#xd;
+  &quot;address&quot;: {&#xd;
+    &quot;department&quot;: &quot;Arequipa&quot;,&#xd;
+    &quot;province&quot;: &quot;Arequipa&quot;,&#xd;
+    &quot;district&quot;: &quot;Yanahuara&quot;,&#xd;
+    &quot;urbanization&quot;: &quot;San José&quot;,&#xd;
+    &quot;reference&quot;: &quot;Av. Larco 450&quot;&#xd;
+  }&#xd;
+}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract ID 3" enabled="true">
+            <stringProp name="JSONPostProcessor.referenceNames">inst_id_3</stringProp>
+            <stringProp name="JSONPostProcessor.jsonPathExprs">$.data.id</stringProp>
+            <stringProp name="JSONPostProcessor.match_numbers">1</stringProp>
+            <stringProp name="JSONPostProcessor.defaultValues">ERROR</stringProp>
+          </JSONPostProcessor>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="POST Create Institution 4">
+          <stringProp name="HTTPSampler.path">/api/institutions</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+  &quot;codeInstitution&quot;: &quot;INST-004&quot;,&#xd;
+  &quot;colorInstitution&quot;: &quot;#f59e0b&quot;,&#xd;
+  &quot;modularCode&quot;: &quot;MOD-0004&quot;,&#xd;
+  &quot;name&quot;: &quot;I.E. Santa Rosa&quot;,&#xd;
+  &quot;institutionType&quot;: &quot;ESTATAL&quot;,&#xd;
+  &quot;institutionLevel&quot;: &quot;SECUNDARIA&quot;,&#xd;
+  &quot;gender&quot;: &quot;MUJERES&quot;,&#xd;
+  &quot;slogan&quot;: &quot;Disciplina, Estudio y Trabajo&quot;,&#xd;
+  &quot;address&quot;: {&#xd;
+    &quot;department&quot;: &quot;La Libertad&quot;,&#xd;
+    &quot;province&quot;: &quot;Trujillo&quot;,&#xd;
+    &quot;district&quot;: &quot;Trujillo&quot;,&#xd;
+    &quot;urbanization&quot;: &quot;Las Quintanas&quot;,&#xd;
+    &quot;reference&quot;: &quot;Frente al Estadio Municipal&quot;&#xd;
+  }&#xd;
+}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract ID 4" enabled="true">
+            <stringProp name="JSONPostProcessor.referenceNames">inst_id_4</stringProp>
+            <stringProp name="JSONPostProcessor.jsonPathExprs">$.data.id</stringProp>
+            <stringProp name="JSONPostProcessor.match_numbers">1</stringProp>
+            <stringProp name="JSONPostProcessor.defaultValues">ERROR</stringProp>
+          </JSONPostProcessor>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="POST Create Institution 5">
+          <stringProp name="HTTPSampler.path">/api/institutions</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+  &quot;codeInstitution&quot;: &quot;INST-005&quot;,&#xd;
+  &quot;colorInstitution&quot;: &quot;#ef4444&quot;,&#xd;
+  &quot;modularCode&quot;: &quot;MOD-0005&quot;,&#xd;
+  &quot;name&quot;: &quot;I.E. Fe y Alegria&quot;,&#xd;
+  &quot;institutionType&quot;: &quot;CONVENIO&quot;,&#xd;
+  &quot;institutionLevel&quot;: &quot;SECUNDARIA&quot;,&#xd;
+  &quot;gender&quot;: &quot;MIXTO&quot;,&#xd;
+  &quot;slogan&quot;: &quot;Educación Popular y Promoción Social&quot;,&#xd;
+  &quot;address&quot;: {&#xd;
+    &quot;department&quot;: &quot;Lima&quot;,&#xd;
+    &quot;province&quot;: &quot;Lima&quot;,&#xd;
+    &quot;district&quot;: &quot;San Juan de Lurigancho&quot;,&#xd;
+    &quot;urbanization&quot;: &quot;Canto Grande&quot;,&#xd;
+    &quot;reference&quot;: &quot;Paradero 10 de Av. Flores&quot;&#xd;
+  }&#xd;
+}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract ID 5" enabled="true">
+            <stringProp name="JSONPostProcessor.referenceNames">inst_id_5</stringProp>
+            <stringProp name="JSONPostProcessor.jsonPathExprs">$.data.id</stringProp>
+            <stringProp name="JSONPostProcessor.match_numbers">1</stringProp>
+            <stringProp name="JSONPostProcessor.defaultValues">ERROR</stringProp>
+          </JSONPostProcessor>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET Get Institution 1">
+          <stringProp name="HTTPSampler.path">/api/institutions/${inst_id_1}</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="Variables definidas por el Usuario">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET Get Institution 2">
+          <stringProp name="HTTPSampler.path">/api/institutions/${inst_id_2}</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="Variables definidas por el Usuario">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET Get Institution 3">
+          <stringProp name="HTTPSampler.path">/api/institutions/${inst_id_3}</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="Variables definidas por el Usuario">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET Get Active Institutions">
+          <stringProp name="HTTPSampler.path">/api/institutions/active</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="Variables definidas por el Usuario">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET Get All Institutions">
+          <stringProp name="HTTPSampler.path">/api/institutions</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="Variables definidas por el Usuario">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <sentBytes>true</sentBytes>
+              <url>true</url>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+              <connectTime>true</connectTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+      </hashTree>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>

@@ -1,0 +1,47 @@
+server:
+  port: ${SERVER_PORT:9080}
+  forward-headers-strategy: framework
+  servlet:
+    encoding:
+      charset: UTF-8
+      force: true
+      enabled: true
+
+spring:
+  http:
+    encoding:
+      charset: UTF-8
+      force: true
+      enabled: true
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+
+  r2dbc:
+    pool:
+      max-idle-time: 1m          # cierra conexiones idle antes de que Neon las mate
+      validation-query: SELECT 1  # valida antes de usar, no después
+      max-life-time: 5m
+      initial-size: 1
+      max-size: 5
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${KEYCLOAK_ISSUER_URI:https://sigei.ddns.net/keycloak/realms/sigei}
+          jwk-set-uri: ${KEYCLOAK_JWK_SET_URI:https://sigei.ddns.net/keycloak/realms/sigei/protocol/openid-connect/certs}
+
+  application:
+    name: vg-ms-institution-management
+
+cloudinary:
+  cloud-name: ${CLOUDINARY_CLOUD_NAME:djcqrrsie}
+  api-key: ${CLOUDINARY_API_KEY:367785599392737}
+  api-secret: ${CLOUDINARY_API_SECRET:RxlsAs7bXiPhxS_tmX2HLh8j-wU}
+
+logging:
+  level:
+    root: INFO
+    pe.edu.vallegrande.sigei: INFO
+    org.springframework.security: WARN
+    io.github.resilience4j: INFO

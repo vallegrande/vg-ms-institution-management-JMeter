@@ -1,0 +1,63 @@
+stages:
+  - sonar
+  - docker
+  - deploy
+
+variables:
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+  IMAGE_NAME: "oscarochoa01/vg-ms-sigei-institution"
+  DOCKER_TLS_CERTDIR: ""
+  DEPLOY_WEBHOOK_URL: "https://sigei.ddns.net/api/deploy/kivBEgk1zA_T414ZsEFAb"
+
+  SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"
+  GIT_DEPTH: "0"
+
+cache:
+  paths:
+    - .m2/repository
+
+# 🔍 ANÁLISIS DE CÓDIGO
+sonarcloud-check:
+  stage: sonar
+  image: maven:3.9.9-eclipse-temurin-21
+  cache:
+    key: "${CI_JOB_NAME}"
+    paths:
+      - .sonar/cache
+      - .m2/repository
+  script:
+    - mvn clean verify sonar:sonar
+        -Dsonar.projectKey=as232s5-prs1_vg-ms-institution-management
+        -Dsonar.organization=as232s5-prs1
+        -Dsonar.host.url=https://sonarcloud.io
+        -Dsonar.token=$SONAR_TOKEN
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "develop"'
+
+docker_publish:
+  stage: docker
+  image: docker:27.1.2
+  services:
+    - docker:27.1.2-dind
+  before_script:
+    - echo "$DOCKER_TOKEN" | docker login -u "oscarochoa01" --password-stdin
+  script:
+    - docker build -t "$IMAGE_NAME:$CI_COMMIT_SHORT_SHA" -t "$IMAGE_NAME:latest" .
+    - docker push "$IMAGE_NAME:$CI_COMMIT_SHORT_SHA"
+    - docker push "$IMAGE_NAME:latest"
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push" && ($CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "develop")'
+    - if: "$CI_COMMIT_TAG"
+
+# 🚀 DEPLOY
+deploy_vps:
+  stage: deploy
+  image: curlimages/curl:8.10.1
+  needs:
+    - docker_publish
+  script:
+    - curl -fsS -X POST "$DEPLOY_WEBHOOK_URL" || curl -fsS "$DEPLOY_WEBHOOK_URL"
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push" && ($CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "develop")'
+    - if: "$CI_COMMIT_TAG"

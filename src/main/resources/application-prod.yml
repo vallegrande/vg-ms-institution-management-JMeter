@@ -1,0 +1,26 @@
+spring:
+  r2dbc:
+    url: r2dbc:postgresql://${DB_HOST}/${DB_NAME}?sslMode=require&options=-c%20client_encoding=UTF8
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    pool:
+      max-idle-time: 1m          # cierra conexiones idle antes de que Neon las mate
+      validation-query: SELECT 1  # valida antes de usar, no después
+      max-life-time: 5m
+      initial-size: 1
+      max-size: 5
+
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false
+
+logging:
+  pattern:
+    console: "%d{HH:mm:ss.SSS} %-5level [%logger{20}] %msg%n"
+  level:
+    root: WARN
+    pe.edu.vallegrande.sigei: INFO
+    org.springframework.r2dbc: WARN
+    io.r2dbc.postgresql: WARN
